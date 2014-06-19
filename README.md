@@ -2,7 +2,7 @@ AngularJs Annotate Asset-Pipeline
 ================================
 [![Build Status](https://drone.io/github.com/craigburke/angular-annotate-asset-pipeline/status.png)](https://drone.io/github.com/craigburke/angular-annotate-asset-pipeline/latest)
 
-The Grails `angular-annotate-asset-pipeline` is a plugin that provides annotations for dependecy injections to allow angular files to be minified within the asset pipeline.
+The Grails `angular-annotate-asset-pipeline` is a plugin that provides annotations for dependecy injection to allow angular javascript files to be minified within the asset pipeline.
 
 For more information on how to use asset-pipeline, visit [here](http://www.github.com/bertramdev/asset-pipeline).
 
@@ -23,7 +23,6 @@ This plugin uses [ng-annotate](https://github.com/olov/ng-annotate) to add those
 
 For example this 
 ```javascript
-var myApp = angular.module('myApp', []);
 myApp.controller('IndexController', function($scope) {
 	$scope.message = "Hello world"
 });
@@ -31,7 +30,6 @@ myApp.controller('IndexController', function($scope) {
 
 Will be automatically annotated like so:
 ```javascript
-var myApp = angular.module('myApp', []);
 myApp.controller('IndexController', ['$scope', function($scope) {
 	$scope.message = "Hello world"
 }]);
