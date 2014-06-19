@@ -23,16 +23,16 @@ This plugin uses [ng-annotate](https://github.com/olov/ng-annotate) to add those
 
 For example this 
 ```javascript
-angular.module('myApp', [])
-	.controller('IndexController', function($scope) {
-		$scope.message = "Hello world"
-	});
+var myApp = angular.module('myApp', []);
+myApp.controller('IndexController', function($scope) {
+	$scope.message = "Hello world"
+});
 ```
 
 Will be automatically annotated like so:
 ```javascript
-angular.module('myApp', [])
-        .controller('IndexController', ['$scope', function($scope) {
-                $scope.message = "Hello world"
-        }]);
+var myApp = angular.module('myApp', []);
+myApp.controller('IndexController', ['$scope', function($scope) {
+	$scope.message = "Hello world"
+}]);
 ```
