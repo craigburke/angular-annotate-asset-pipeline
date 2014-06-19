@@ -1,0 +1,13 @@
+# IDEA
+.classpath
+.project
+*.iml
+*.ipr
+*.iws
+
+# Grails
+target
+out
+
+# Gradle
+.gradle
