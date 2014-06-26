@@ -10,7 +10,7 @@ class AngularAnnotateAssetPipelineGrailsPlugin {
             "grails-app/assets/**"
     ]
 
-    def title = "AngularJS Template Asset-Pipeline Plugin"
+    def title = "AngularJS Annotate Asset-Pipeline Plugin"
     def author = "Craig Burke"
     def authorEmail = "craig@craigburke.com"
     def description = "Provides AngularJS dependency injection annotation support for the asset-pipeline static asset management plugin."
