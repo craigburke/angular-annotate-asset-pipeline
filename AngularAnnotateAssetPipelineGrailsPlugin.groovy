@@ -1,3 +1,4 @@
+import asset.pipeline.AssetHelper
 import asset.pipeline.JsAssetFile
 import com.craigburke.angular.AnnotateProcessor
 
@@ -7,7 +8,8 @@ class AngularAnnotateAssetPipelineGrailsPlugin {
     def grailsVersion = "2.0 > *"
 
     def pluginExcludes = [
-            "grails-app/assets/**"
+            "grails-app/assets/**",
+            "grails-app/views/**"
     ]
 
     def title = "AngularJS Annotate Asset-Pipeline Plugin"
