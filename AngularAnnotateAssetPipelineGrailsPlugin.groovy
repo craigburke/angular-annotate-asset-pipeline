@@ -1,4 +1,3 @@
-import asset.pipeline.AssetHelper
 import asset.pipeline.JsAssetFile
 import com.craigburke.angular.AnnotateProcessor
 
