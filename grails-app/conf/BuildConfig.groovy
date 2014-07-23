@@ -1,11 +1,6 @@
 grails.project.work.dir = 'target'
 
-grails.project.fork = [
-    test: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, daemon:true],
-    run: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, forkReserve:false],
-    war: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, forkReserve:false],
-    console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256]
-]
+grails.project.fork = false
 
 grails.project.dependency.resolver = "maven"
 grails.project.dependency.resolution = {
@@ -14,7 +9,7 @@ grails.project.dependency.resolution = {
     log 'warn'
 
     String gebVersion = '0.9.2'
-    String seleniumVersion = '2.39.0'
+    String seleniumVersion = '2.42.2'
     String spockVersion = '0.7'
 
     repositories {
@@ -37,9 +32,9 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        build(":tomcat:$grailsVersion",
-                ":release:2.2.1",
-                ":rest-client-builder:1.0.3") {
+        build(":release:3.0.1",
+                ":rest-client-builder:1.0.3",
+                ":tomcat:7.0.53") {
             export = false
         }
 
