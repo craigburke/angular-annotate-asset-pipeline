@@ -23,8 +23,6 @@ This plugin uses [ng-annotate](https://github.com/olov/ng-annotate) to add those
 
 For example this 
 ```javascript
-var myApp = angular.module('myApp', []);
-
 myApp.controller('IndexController', function($scope) {
 	$scope.message = "Hello world";
 });
@@ -32,8 +30,6 @@ myApp.controller('IndexController', function($scope) {
 
 Will be automatically annotated like so:
 ```javascript
-var myApp = angular.module('myApp', []);
-
 myApp.controller('IndexController', ['$scope', function($scope) {
 	$scope.message = "Hello world";
 }]);
