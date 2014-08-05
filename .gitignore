@@ -1,3 +1,5 @@
+**/.DS_Store
+
 # IDEA
 .classpath
 .project
@@ -12,3 +14,7 @@ out
 
 # Gradle
 .gradle
+
+# Node
+node_modules
+build
