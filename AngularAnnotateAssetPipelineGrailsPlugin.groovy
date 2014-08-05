@@ -3,7 +3,7 @@ import com.craigburke.angular.AnnotateProcessor
 
 class AngularAnnotateAssetPipelineGrailsPlugin {
 
-    def version = "1.0.2"
+    def version = "1.0.3"
     def grailsVersion = "2.0 > *"
 
     def pluginExcludes = [
