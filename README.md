@@ -10,7 +10,7 @@ For more information on how to use asset-pipeline, visit [here](http://www.githu
 Add the plugin to your **BuildConfig.groovy**:
 ```groovy
 plugins {
-		runtime ":angular-annotate-asset-pipeline:1.0.2"
+		runtime ":angular-annotate-asset-pipeline:1.0.3"
 }
 ```
 
