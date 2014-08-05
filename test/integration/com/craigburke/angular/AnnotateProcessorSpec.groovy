@@ -1,8 +1,8 @@
 package com.craigburke.angular
 
-import grails.plugin.spock.IntegrationSpec
 import asset.pipeline.JsAssetFile
 import asset.pipeline.processors.UglifyJsProcessor
+import grails.test.spock.IntegrationSpec
 
 class AnnotateProcessorSpec extends IntegrationSpec {
 

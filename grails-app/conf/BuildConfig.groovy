@@ -8,9 +8,8 @@ grails.project.dependency.resolution = {
     inherits 'global'
     log 'warn'
 
-    String gebVersion = '0.9.2'
+    String gebVersion = '0.9.3'
     String seleniumVersion = '2.42.2'
-    String spockVersion = '0.7'
 
     repositories {
         grailsCentral()
@@ -28,7 +27,7 @@ grails.project.dependency.resolution = {
 
     }
     plugins {
-        runtime(":asset-pipeline:1.8.11") {
+        runtime(":asset-pipeline:1.9.6") {
             export = false
         }
 
@@ -39,8 +38,5 @@ grails.project.dependency.resolution = {
         }
 
         test ":geb:$gebVersion"
-        test(":spock:$spockVersion") {
-            exclude "spock-grails-support"
-        }
     }
 }
