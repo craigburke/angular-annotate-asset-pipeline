@@ -1,10 +1,10 @@
 buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.moowork.gradle:gradle-node-plugin:0.6'
-    }
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath 'com.moowork.gradle:gradle-node-plugin:0.6'
+	}
 }
 
 apply plugin: 'com.moowork.node'
