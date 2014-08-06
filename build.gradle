@@ -30,7 +30,7 @@ task installDependencies(type: NpmTask) {
 	args = ['install'] + npmDependencies + ['--save-dev']
 }
 
-task bundleNgAnnotate(type: NodeTask, dependsOn: ['installDependencies']) {
+task bundleNgAnnotate(type: NodeTask, dependsOn: 'installDependencies') {
 	script = file('node_modules/browserify/bin/cmd.js')
 	args = ['node_modules/ng-annotate/build/es5/ng-annotate-main.js', '-o', tempFile.path]
 }
