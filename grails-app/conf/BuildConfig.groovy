@@ -24,7 +24,6 @@ grails.project.dependency.resolution = {
 
         test "org.seleniumhq.selenium:selenium-remote-driver:$seleniumVersion"
         test "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
-
     }
     plugins {
         runtime(":asset-pipeline:1.9.6") {
