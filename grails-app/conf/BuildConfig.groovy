@@ -26,13 +26,14 @@ grails.project.dependency.resolution = {
         test "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
     }
     plugins {
-        runtime(":asset-pipeline:1.9.6") {
+        compile(":asset-pipeline:1.9.6",
+		":coffee-asset-pipeline:1.9.0") {
             export = false
         }
 
         build(":release:3.0.1",
-                ":rest-client-builder:1.0.3",
-                ":tomcat:7.0.53") {
+              ":rest-client-builder:1.0.3",
+              ":tomcat:7.0.53") {
             export = false
         }
 

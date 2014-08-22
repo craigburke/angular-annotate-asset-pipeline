@@ -1,4 +1,4 @@
 eventAssetPrecompileStart = { assetConfig ->
-    def jsAssetFile = Class.forName('asset.pipeline.JsAssetFile')
-    jsAssetFile.processors << Class.forName('com.craigburke.angular.AnnotateProcessor')
+    def AnnotateProcessorUtil = classLoader.loadClass('com.craigburke.angular.AnnotateProcessorUtil')
+    AnnotateProcessorUtil.load()
 }

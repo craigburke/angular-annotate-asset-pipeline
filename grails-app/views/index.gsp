@@ -2,10 +2,12 @@
 <html>
 <head>
     <title></title>
-    <asset:javascript src="test.js" />
+    <asset:javascript src="js-test.js" />
 </head>
 
-<body>
-
+<body ng-app="jsApp">
+<div ng-controller="TestController">
+    {{message}}
+</div>
 </body>
 </html>

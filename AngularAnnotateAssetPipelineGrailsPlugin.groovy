@@ -1,5 +1,6 @@
 import asset.pipeline.JsAssetFile
 import com.craigburke.angular.AnnotateProcessor
+import com.craigburke.angular.AnnotateProcessorUtil
 
 class AngularAnnotateAssetPipelineGrailsPlugin {
 
@@ -21,8 +22,10 @@ class AngularAnnotateAssetPipelineGrailsPlugin {
     def issueManagement = [ system: "GITHUB", url: "http://github.com/craigburke/angular-annotate-asset-pipeline/issues" ]
     def scm = [ url: "http://github.com/craigburke/angular-annotate-asset-pipeline" ]
 
+    def loadAfter = ['coffeeAssetPipeline']
+
     def doWithDynamicMethods = { ctx ->
-        JsAssetFile.processors << AnnotateProcessor
+        AnnotateProcessorUtil.load()
     }
 
 }
