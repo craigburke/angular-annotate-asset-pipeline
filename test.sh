@@ -2,11 +2,10 @@
 set -e
 
 function install_java {
+	set +e # Ignore missing package erros
 	sudo apt-get purge openjdk*
 	sudo apt-get purge oracle-java*
-	
-	unset JAVA_HOME
-	
+		
 	JAVA_VERSION=$1
 	
 	sudo apt-get -q -y install python-software-properties
@@ -17,6 +16,7 @@ function install_java {
 	echo "oracle-java$JAVA_VERSION-installer shared/accepted-oracle-license-v1-1 seen true" | sudo debconf-set-selections
 
 	sudo apt-get -q -y install oracle-java$JAVA_VERSION-set-default
+	set -e
 }
 
 install_java 7
