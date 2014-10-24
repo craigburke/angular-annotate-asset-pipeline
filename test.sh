@@ -16,6 +16,7 @@ function install_java {
 	echo "oracle-java$JAVA_VERSION-installer shared/accepted-oracle-license-v1-1 seen true" | sudo debconf-set-selections
 
 	sudo apt-get -q -y install oracle-java$JAVA_VERSION-set-default
+	export JAVA_HOME="/usr/lib/jvm/java-$JAVA_VERSION-oracle"
 	set -e
 }
 
