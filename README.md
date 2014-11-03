@@ -10,7 +10,7 @@ For more information on how to use asset-pipeline, visit [here](http://www.githu
 Add the plugin to your **BuildConfig.groovy**:
 ```groovy
 plugins {
-		runtime ":angular-annotate-asset-pipeline:1.1.2"
+		runtime ":angular-annotate-asset-pipeline:1.1.3"
 }
 ```
 
@@ -19,7 +19,7 @@ plugins {
 Since the parameter names are significant for AngularJS to do dependency injection and most minifiers rename parameters,
 you have to use inline annotations. See [A Note on Minification](https://docs.angularjs.org/tutorial/step_05)
 
-This plugin uses [ng-annotate v0.10.1](https://github.com/olov/ng-annotate) to add those inline annotations and make your angular files safe to minify.
+This plugin uses [ng-annotate v0.10.3](https://github.com/olov/ng-annotate) to add those inline annotations and make your angular files safe to minify.
 
 For example this 
 ```javascript
