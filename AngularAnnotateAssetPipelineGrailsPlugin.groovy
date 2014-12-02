@@ -1,7 +1,3 @@
-import asset.pipeline.JsAssetFile
-import com.craigburke.angular.AnnotateProcessor
-import com.craigburke.angular.AnnotateProcessorUtil
-
 class AngularAnnotateAssetPipelineGrailsPlugin {
     def version = "2.0.1"
     def grailsVersion = "2.0 > *"
