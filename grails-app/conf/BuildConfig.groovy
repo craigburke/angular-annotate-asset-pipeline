@@ -22,7 +22,5 @@ grails.project.dependency.resolution = {
               ":rest-client-builder:1.0.3") {
             export = false
         }
-
-        test ":geb:$gebVersion"
     }
 }
