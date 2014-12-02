@@ -8,32 +8,18 @@ grails.project.dependency.resolution = {
     inherits 'global'
     log 'warn'
 
-    String gebVersion = '0.9.3'
-    String seleniumVersion = '2.42.2'
-
     repositories {
         grailsCentral()
         mavenLocal()
         mavenCentral()
     }
     dependencies {
-        test "org.seleniumhq.selenium:selenium-htmlunit-driver:$seleniumVersion"
-        test "org.spockframework:spock-grails-support:0.7-groovy-2.0"
-        test "org.seleniumhq.selenium:selenium-support:$seleniumVersion"
-        test "org.gebish:geb-spock:${gebVersion}"
-
-        test "org.seleniumhq.selenium:selenium-remote-driver:$seleniumVersion"
-        test "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
+		compile "com.craigburke.angular:angular-annotate-asset-pipeline:2.0.1"
     }
     plugins {
-        compile(":asset-pipeline:1.9.6",
-		":coffee-asset-pipeline:1.9.0") {
-            export = false
-        }
 
         build(":release:3.0.1",
-              ":rest-client-builder:1.0.3",
-              ":tomcat:7.0.53") {
+              ":rest-client-builder:1.0.3") {
             export = false
         }
 

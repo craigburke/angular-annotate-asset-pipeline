@@ -3,14 +3,8 @@ import com.craigburke.angular.AnnotateProcessor
 import com.craigburke.angular.AnnotateProcessorUtil
 
 class AngularAnnotateAssetPipelineGrailsPlugin {
-
-    def version = "1.1.3"
+    def version = "2.0.1"
     def grailsVersion = "2.0 > *"
-
-    def pluginExcludes = [
-            "grails-app/assets/**",
-            "grails-app/views/**"
-    ]
 
     def title = "AngularJS Annotate Asset-Pipeline Plugin"
     def author = "Craig Burke"
@@ -23,9 +17,4 @@ class AngularAnnotateAssetPipelineGrailsPlugin {
     def scm = [ url: "http://github.com/craigburke/angular-annotate-asset-pipeline" ]
 
     def loadAfter = ['coffeeAssetPipeline']
-
-    def doWithDynamicMethods = { ctx ->
-        AnnotateProcessorUtil.load()
-    }
-
 }
