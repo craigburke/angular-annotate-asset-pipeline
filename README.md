@@ -2,7 +2,7 @@ AngularJs Annotate Asset-Pipeline
 ================================
 [ ![Codeship Status for craigburke/angular-annotate-asset-pipeline](https://codeship.com/projects/63e0e280-8c81-0132-c100-6e5f8c02ac8f/status?branch=master)](https://codeship.com/projects/60472)
 
-The `angular-annotate-asset-pipeline` is an [Asset Pipeline](http://www.github.com/bertramdev/asset-pipeline) module that provides annotations for dependecy injection to allow angular JavaScript or CofeeScript files to be minified in Gradle and Grails projects.
+The `angular-annotate-asset-pipeline` is an [Asset Pipeline](https://github.com/bertramdev/asset-pipeline-core) module that provides annotations for dependecy injection to allow angular JavaScript or CofeeScript files to be minified in Gradle and Grails projects.
 
 ## Getting started
 
