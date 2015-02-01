@@ -1,7 +1,7 @@
 **/.DS_Store
 
 grails-plugin/web-app	
-
+core/gradle.properties
 
 # IDEA
 .classpath
