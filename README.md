@@ -1,15 +1,30 @@
 AngularJs Annotate Asset-Pipeline
 ================================
 
-The Grails `angular-annotate-asset-pipeline` is a plugin that provides annotations for dependecy injection to allow angular JavaScript or CofeeScript files to be minified within the asset pipeline. A more recent version of the Asset Pipeline (2.0+) is required.
-
-For more information on how to use asset-pipeline, visit [here](http://www.github.com/bertramdev/asset-pipeline).
+The `angular-annotate-asset-pipeline` is an [Asset Pipeline](http://www.github.com/bertramdev/asset-pipeline) module that provides annotations for dependecy injection to allow angular JavaScript or CofeeScript files to be minified in Gradle and Grails projects.
 
 ## Getting started
-Add the plugin to your **BuildConfig.groovy**:
+
+### Gradle
+```groovy
+buildscript {
+    dependencies {
+        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.0.20"
+        classpath "com.craigburke.angular:angular-annotate-asset-pipeline:2.0.3"
+    }
+}
+
+dependencies {
+	compile "com.craigburke.angular:angular-annotate-asset-pipeline:2.0.3"
+}
+```
+Make sure the dependency is specified in both the buildscript and dependencies blocks.
+
+### Grails 
+Add the plugin to your **BuildConfig.groovy**::
 ```groovy
 plugins {
-		runtime ":angular-annotate-asset-pipeline:2.0.3"
+	runtime ":angular-annotate-asset-pipeline:2.0.3"
 }
 ```
 
