@@ -20,18 +20,20 @@ class AnnotateProcessor {
 
 	@Synchronized
 	void initializeScope() {
-		try {
-			def annotateResource = getClass().classLoader.getResource('ngannotate.js')
-			Context context = Context.enter()
-			globalScope = context.initStandardObjects()
-			context.evaluateString(globalScope, annotateResource.text, annotateResource.file, 0, null)
-		}
-		catch (Exception ex) {
-			throw new Exception("ngAnnotate initialization failed")
-		}
-		finally {
-			try { Context.exit() }
-			catch (Exception ex) {}
+		if (!globalScope) {
+			try {
+				def annotateResource = getClass().classLoader.getResource('ngannotate.js')
+				Context context = Context.enter()
+				globalScope = context.initStandardObjects()
+				context.evaluateString(globalScope, annotateResource.text, annotateResource.file, 0, null)
+			}
+			catch (Exception ex) {
+				throw new Exception("ngAnnotate initialization failed")
+			}
+			finally {
+				try { Context.exit() }
+				catch (Exception ex) {}
+			}
 		}
 	}
 
