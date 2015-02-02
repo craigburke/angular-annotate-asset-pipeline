@@ -14,7 +14,7 @@ grails.project.dependency.resolution = {
         mavenCentral()
     }
     dependencies {
-		compile "com.craigburke.angular:angular-annotate-asset-pipeline:2.0.3"
+		compile "com.craigburke.angular:angular-annotate-asset-pipeline:2.0.4"
     }
     plugins {
 

@@ -11,12 +11,12 @@ The `angular-annotate-asset-pipeline` is an [Asset Pipeline](https://github.com/
 buildscript {
     dependencies {
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.0.20"
-        classpath "com.craigburke.angular:angular-annotate-asset-pipeline:2.0.3"
+        classpath "com.craigburke.angular:angular-annotate-asset-pipeline:2.0.4"
     }
 }
 
 dependencies {
-	compile "com.craigburke.angular:angular-annotate-asset-pipeline:2.0.3"
+	compile "com.craigburke.angular:angular-annotate-asset-pipeline:2.0.4"
 }
 ```
 Make sure the dependency is specified in both the buildscript and dependencies blocks.
@@ -25,7 +25,7 @@ Make sure the dependency is specified in both the buildscript and dependencies b
 Add the plugin to your **BuildConfig.groovy**::
 ```groovy
 plugins {
-	runtime ":angular-annotate-asset-pipeline:2.0.3"
+	runtime ":angular-annotate-asset-pipeline:2.0.4"
 }
 ```
 
