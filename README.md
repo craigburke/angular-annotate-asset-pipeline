@@ -38,14 +38,14 @@ This plugin uses [ng-annotate v0.15.4](https://github.com/olov/ng-annotate) to a
 
 For example this 
 ```javascript
-fuction IndexController($scope) {
+function IndexController($scope) {
 	$scope.message = "Hello world";
 };
 ```
 
 Will be automatically annotated like so:
 ```javascript
-fuction IndexController($scope) {
+function IndexController($scope) {
 	$scope.message = "Hello world";
 };
 IndexController.$inject = ["$scope"];
