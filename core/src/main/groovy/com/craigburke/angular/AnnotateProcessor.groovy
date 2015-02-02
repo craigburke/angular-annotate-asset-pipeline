@@ -12,20 +12,20 @@ import groovy.transform.Synchronized
 @CompileStatic
 class AnnotateProcessor {
 	
-	Scriptable globalScope
+	static Scriptable globalScope
 	
 	AnnotateProcessor(AssetCompiler precompiler) {
-		initializeScope()
+		this.initializeScope()
 	}
 
 	@Synchronized
-	void initializeScope() {
-		if (!globalScope) {
+	static void initializeScope() {
+		if (!this.globalScope) {
 			try {
-				def annotateResource = getClass().classLoader.getResource('ngannotate.js')
+				URL annotateResource = AnnotateProcessor.classLoader.getResource('ngannotate.js')
 				Context context = Context.enter()
-				globalScope = context.initStandardObjects()
-				context.evaluateString(globalScope, annotateResource.text, annotateResource.file, 0, null)
+				AnnotateProcessor.globalScope = context.initStandardObjects()
+				context.evaluateString(AnnotateProcessor.globalScope, annotateResource.text, annotateResource.file, 0, null)
 			}
 			catch (Exception ex) {
 				throw new Exception("ngAnnotate initialization failed")
@@ -40,9 +40,9 @@ class AnnotateProcessor {
     def process(String input, AssetFile assetFile) {
 		try {
 			def context = Context.enter()
-			def annotateScope = context.newObject(globalScope)
+			def annotateScope = context.newObject(AnnotateProcessor.globalScope)
 			
-			annotateScope.setParentScope(globalScope)
+			annotateScope.setParentScope(AnnotateProcessor.globalScope)
 			annotateScope.put("inputSrc", annotateScope, input)
 
 			Map result = (Map)context.evaluateString(annotateScope, "ngAnnotate(inputSrc, {add: true, sourcemap: false, stats: false})", "ngAnnotate command", 0, null)
