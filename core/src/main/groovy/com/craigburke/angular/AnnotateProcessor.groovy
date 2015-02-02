@@ -7,6 +7,7 @@ import org.mozilla.javascript.Scriptable
 import asset.pipeline.AssetCompiler
 
 import groovy.transform.CompileStatic
+import groovy.transform.Synchronized
 
 @CompileStatic
 class AnnotateProcessor {
@@ -14,6 +15,11 @@ class AnnotateProcessor {
 	Scriptable globalScope
 	
 	AnnotateProcessor(AssetCompiler precompiler) {
+		initializeScope()
+	}
+
+	@Synchronized
+	void initializeScope() {
 		try {
 			def annotateResource = getClass().classLoader.getResource('ngannotate.js')
 			Context context = Context.enter()
@@ -27,7 +33,6 @@ class AnnotateProcessor {
 			try { Context.exit() }
 			catch (Exception ex) {}
 		}
-		
 	}
 
     def process(String input, AssetFile assetFile) {

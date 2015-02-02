@@ -1,6 +1,8 @@
 **/.DS_Store
 
 grails-plugin/web-app/
+grails-plugin/*.zip
+grails-plugin/plugin.xml
 core/gradle.properties
 
 # IDEA

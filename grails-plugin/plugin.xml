@@ -1,9 +1,0 @@
-<plugin name='angular-annotate-asset-pipeline' version='2.0.2' grailsVersion='2.0 &gt; *'>
-  <author>Craig Burke</author>
-  <authorEmail>craig@craigburke.com</authorEmail>
-  <title>AngularJS Annotate Asset-Pipeline Plugin</title>
-  <description>Provides AngularJS dependency injection annotation support for the asset-pipeline static asset management plugin.</description>
-  <documentation>http://github.com/craigburke/angular-annotate-asset-pipeline</documentation>
-  <type>AngularAnnotateAssetPipelineGrailsPlugin</type>
-  <resources />
-</plugin>
