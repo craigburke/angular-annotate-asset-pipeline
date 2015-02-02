@@ -22,7 +22,7 @@ dependencies {
 Make sure the dependency is specified in both the buildscript and dependencies blocks.
 
 ### Grails 
-Add the plugin to your **BuildConfig.groovy**::
+Add the plugin to your **BuildConfig.groovy**:
 ```groovy
 plugins {
 	runtime ":angular-annotate-asset-pipeline:2.0.4"
