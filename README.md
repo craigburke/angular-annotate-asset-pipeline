@@ -22,7 +22,7 @@ dependencies {
 Make sure the dependency is specified in both the buildscript and dependencies blocks.
 
 ### Grails 
-Add the plugin to your **BuildConfig.groovy**::
+Add the plugin to your **BuildConfig.groovy**:
 ```groovy
 plugins {
 	runtime ":angular-annotate-asset-pipeline:2.0.4"
@@ -38,14 +38,15 @@ This plugin uses [ng-annotate v0.15.4](https://github.com/olov/ng-annotate) to a
 
 For example this 
 ```javascript
-myApp.controller('IndexController', function($scope) {
+function IndexController($scope) {
 	$scope.message = "Hello world";
-});
+};
 ```
 
 Will be automatically annotated like so:
 ```javascript
-myApp.controller('IndexController', ['$scope', function($scope) {
+function IndexController($scope) {
 	$scope.message = "Hello world";
-}]);
+};
+IndexController.$inject = ["$scope"];
 ```
