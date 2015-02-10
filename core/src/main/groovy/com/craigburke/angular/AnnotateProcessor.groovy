@@ -14,18 +14,16 @@ class AnnotateProcessor {
 	
 	static Scriptable globalScope
 	
-	AnnotateProcessor(AssetCompiler precompiler) {
-		this.initializeScope()
-	}
+	AnnotateProcessor(AssetCompiler precompiler) { }
 
 	@Synchronized
-	static void initializeScope() {
-		if (!this.globalScope) {
+	static Scriptable getGlobalScope() {
+		if (!globalScope) {
 			try {
 				URL annotateResource = AnnotateProcessor.classLoader.getResource('ngannotate.js')
 				Context context = Context.enter()
-				AnnotateProcessor.globalScope = context.initStandardObjects()
-				context.evaluateString(AnnotateProcessor.globalScope, annotateResource.text, annotateResource.file, 0, null)
+				globalScope = context.initStandardObjects()
+				context.evaluateString(globalScope, annotateResource.text, annotateResource.file, 0, null)
 			}
 			catch (Exception ex) {
 				throw new Exception("ngAnnotate initialization failed")
@@ -35,6 +33,8 @@ class AnnotateProcessor {
 				catch (Exception ex) {}
 			}
 		}
+
+        globalScope
 	}
 
     def process(String input, AssetFile assetFile) {
