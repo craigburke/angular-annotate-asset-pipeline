@@ -41,8 +41,8 @@ class AnnotateProcessor {
 		try {
 			def context = Context.enter()
 			def annotateScope = context.newObject(AnnotateProcessor.globalScope)
-			
-			annotateScope.setParentScope(AnnotateProcessor.globalScope)
+			annotateScope.setPrototype(AnnotateProcessor.globalScope)
+			annotateScope.setParentScope(null)
 			annotateScope.put("inputSrc", annotateScope, input)
 
 			Map result = (Map)context.evaluateString(annotateScope, "ngAnnotate(inputSrc, {add: true, sourcemap: false, stats: false})", "ngAnnotate command", 0, null)
