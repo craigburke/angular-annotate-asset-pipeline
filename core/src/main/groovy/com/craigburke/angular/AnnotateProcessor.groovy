@@ -1,32 +1,42 @@
 package com.craigburke.angular
 
 import asset.pipeline.AssetFile
-
-import org.mozilla.javascript.Context
-import org.mozilla.javascript.Scriptable
 import asset.pipeline.AssetCompiler
 
-import groovy.transform.CompileStatic
+import org.mozilla.javascript.Context
+import org.mozilla.javascript.Script
+import org.mozilla.javascript.ScriptableObject
+
 import groovy.transform.Synchronized
+import groovy.transform.CompileStatic
 
 @CompileStatic
 class AnnotateProcessor {
-	
-	static Scriptable globalScope
-	
-	AnnotateProcessor(AssetCompiler precompiler) { }
 
-	@Synchronized
-	static Scriptable getGlobalScope() {
-        if (!globalScope) {
+    static Script annotateScript
+
+    AnnotateProcessor(AssetCompiler precompiler) { }
+
+    private static final List<AnnotateProcessorCacheItem> cache
+
+    static {
+        int cores = Runtime.getRuntime().availableProcessors();
+
+        cache = (1..cores).collect { new AnnotateProcessorCacheItem(inUse: false, pos: it)}
+    }
+
+    @Synchronized
+    static Script getAnnotateScript() {
+        if (! annotateScript) {
             try {
                 URL annotateResource = AnnotateProcessor.classLoader.getResource('ngannotate.js')
+
                 Context context = Context.enter()
-                globalScope = context.initStandardObjects()
-                context.evaluateString(globalScope, annotateResource.text, annotateResource.file, 0, null)
+
+                annotateScript = context.compileString(annotateResource.text, annotateResource.file, 0, null);
             }
             catch (Exception ex) {
-                throw new Exception("ngAnnotate initialization failed")
+                throw new Exception("ngAnnotate initialization failed : " + ex.getMessage())
             }
             finally {
                 try { Context.exit() }
@@ -34,32 +44,76 @@ class AnnotateProcessor {
             }
         }
 
-        globalScope
+        annotateScript
+    }
+
+    static AnnotateProcessorCacheItem getCacheItem() {
+        synchronized (cache) {
+
+            while (true) {
+                def  free = cache.findAll { !it.inUse }
+                if (! free.isEmpty()) {
+                    def first = free.find { it.script } // Priority to item with a script already initialized
+                    if (! first) {
+                        first = free.first()
+                    }
+                    first.inUse = true
+                    return first
+                }
+
+                cache.wait()
+            }
+        }
+    }
+
+    static AnnotateProcessorCacheItem getCacheItemAndCreateScript(Context context) {
+        AnnotateProcessorCacheItem cacheItem = getCacheItem()
+
+        if (! cacheItem.script) {
+            ScriptableObject annotateScope = context.initStandardObjects(null, true);
+            getAnnotateScript().exec(context, annotateScope);
+
+            cacheItem.script = annotateScope
+        }
+
+        return cacheItem
+    }
+
+    static void releaseCacheItem(AnnotateProcessorCacheItem cacheItem) {
+        synchronized (cache) {
+            cacheItem.inUse = false
+            cache.notify()
+        }
     }
 
     def process(String input, AssetFile assetFile) {
-		try {
-			def context = Context.enter()
-			def annotateScope = context.newObject(AnnotateProcessor.globalScope)
-			annotateScope.setPrototype(AnnotateProcessor.globalScope)
-			annotateScope.setParentScope(null)
-			annotateScope.put("inputSrc", annotateScope, input)
 
-			Map result = (Map)context.evaluateString(annotateScope, "ngAnnotate(inputSrc, {add: true, sourcemap: false, stats: false})", "ngAnnotate command", 0, null)
-			
-			if (result.containsKey('errors')) {
-				throw new Exception(result.errors as String)
-			}
-			else {
-				return result.src
-			}
+        AnnotateProcessorCacheItem cacheItem
 
-		} catch (Exception ex) {
-			throw new Exception("ngAnnotate failed: ${ex.message}", ex)
-		} finally {
-			try { Context.exit() }
-			catch (Exception ex) {}
-		}
-	}
+        try {
+            def context = Context.enter()
 
+            cacheItem = getCacheItemAndCreateScript(context)
+
+            cacheItem.script.put("inputSrc", cacheItem.script, input)
+            Map result = (Map)context.evaluateString(cacheItem.script, "ngAnnotate(inputSrc, {add: true, sourcemap: false, stats: false})", "ngAnnotate command", 0, null)
+
+
+            if (result.containsKey('errors')) {
+                throw new Exception(result.errors as String)
+            }
+            else {
+                return result.src
+            }
+
+        } catch (Exception ex) {
+            throw new Exception("ngAnnotate failed: ${ex.message}", ex)
+        } finally {
+            try { Context.exit() }
+            catch (Exception ex) {}
+            if (cacheItem) {
+                releaseCacheItem(cacheItem)
+            }
+        }
+    }
 }
