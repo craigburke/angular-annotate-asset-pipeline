@@ -53,28 +53,30 @@ class AnnotateProcessorUnitSpec extends Specification {
        }
 
        def "Simulate parallel annotation with several threads"() {
-        given:
-
+            given:
             String input = "var test = 'ok';"
+            int threadPool = 20
 
-        when:
-            def results = new String[20]
+            when:
+            def results = []
 
-            def threads = (0..(results.size() - 1)).collect { index ->
+            def threads = (1..threadPool).collect { index ->
                 Thread.start {
-                    println "Starting thread : " + index
-                    try {
-                        results[index] = new AnnotateProcessor().process(input, assetFile)
-                    } catch (Exception ex) {
-                        results[index] = "ERROR:" + ex.message
-                    }
+                    println "Starting thread: ${index}"
+                    results << new AnnotateProcessor().process(input, assetFile)
                 }
             }
+
             threads*.join()
 
-        then:
-            results.findAll { it != input }.isEmpty()
+            then:
+            notThrown(Exception)
 
+            and:
+            results.size() == threadPool
+
+            and:
+            results.findAll { it != input }.isEmpty()
        }
 
 }

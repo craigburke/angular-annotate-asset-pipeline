@@ -14,29 +14,25 @@ import groovy.transform.CompileStatic
 class AnnotateProcessor {
 
     static Script annotateScript
+    private static final List<AnnotateProcessorCacheItem> cache
 
     AnnotateProcessor(AssetCompiler precompiler) { }
 
-    private static final List<AnnotateProcessorCacheItem> cache
-
     static {
-        int cores = Runtime.getRuntime().availableProcessors();
-
-        cache = (1..cores).collect { new AnnotateProcessorCacheItem(inUse: false, pos: it)}
+        int cores = Runtime.runtime.availableProcessors()
+        cache = (1..cores).collect { new AnnotateProcessorCacheItem() }
     }
 
     @Synchronized
     static Script getAnnotateScript() {
-        if (! annotateScript) {
+        if (!annotateScript) {
             try {
                 URL annotateResource = AnnotateProcessor.classLoader.getResource('ngannotate.js')
-
                 Context context = Context.enter()
-
-                annotateScript = context.compileString(annotateResource.text, annotateResource.file, 0, null);
+                annotateScript = context.compileString(annotateResource.text, annotateResource.file, 0, null)
             }
             catch (Exception ex) {
-                throw new Exception("ngAnnotate initialization failed : " + ex.getMessage())
+                throw new Exception("ngAnnotate initialization failed: ${ex.message}")
             }
             finally {
                 try { Context.exit() }
@@ -48,46 +44,46 @@ class AnnotateProcessor {
     }
 
     static AnnotateProcessorCacheItem getCacheItem() {
+        AnnotateProcessorCacheItem cacheItem
+
         synchronized (cache) {
+            while (!cacheItem) {
+                def availableCacheItems = cache.findAll { !it.inUse }
 
-            while (true) {
-                def  free = cache.findAll { !it.inUse }
-                if (! free.isEmpty()) {
-                    def first = free.find { it.script } // Priority to item with a script already initialized
-                    if (! first) {
-                        first = free.first()
-                    }
-                    first.inUse = true
-                    return first
+                if (availableCacheItems) {
+                    cacheItem = availableCacheItems.sort { it.script }.first()
+                    cacheItem.inUse = true
                 }
-
-                cache.wait()
+                else {
+                    cache.wait()
+                }
             }
         }
+
+        cacheItem
+
     }
 
     static AnnotateProcessorCacheItem getCacheItemAndCreateScript(Context context) {
         AnnotateProcessorCacheItem cacheItem = getCacheItem()
 
-        if (! cacheItem.script) {
-            ScriptableObject annotateScope = context.initStandardObjects(null, true);
-            getAnnotateScript().exec(context, annotateScope);
-
+        if (!cacheItem.script) {
+            ScriptableObject annotateScope = context.initStandardObjects(null, true)
+            getAnnotateScript().exec(context, annotateScope)
             cacheItem.script = annotateScope
         }
 
-        return cacheItem
+        cacheItem
     }
 
     static void releaseCacheItem(AnnotateProcessorCacheItem cacheItem) {
-        synchronized (cache) {
+        synchronized(cache) {
             cacheItem.inUse = false
             cache.notify()
         }
     }
 
     def process(String input, AssetFile assetFile) {
-
         AnnotateProcessorCacheItem cacheItem
 
         try {
@@ -97,7 +93,6 @@ class AnnotateProcessor {
 
             cacheItem.script.put("inputSrc", cacheItem.script, input)
             Map result = (Map)context.evaluateString(cacheItem.script, "ngAnnotate(inputSrc, {add: true, sourcemap: false, stats: false})", "ngAnnotate command", 0, null)
-
 
             if (result.containsKey('errors')) {
                 throw new Exception(result.errors as String)
