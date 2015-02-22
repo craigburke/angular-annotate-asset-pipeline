@@ -60,7 +60,7 @@ class AnnotateProcessorUnitSpec extends Specification {
             when:
             def results = []
 
-            def threads = (1..threadPool).collect { index ->
+            def threads = (0..threadPool).collect { index ->
                 Thread.start {
                     println "Starting thread: ${index}"
                     results << new AnnotateProcessor().process(input, assetFile)
