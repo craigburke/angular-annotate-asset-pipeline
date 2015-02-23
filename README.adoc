@@ -67,5 +67,5 @@ IndexController.$inject = ["$scope"];
 == Contributions
 Thank you to the following people who have made major contributions to this module in terms of both feedback and code:
 
-* Eric Brayeur
-* David Estes
+* Eric Brayeur - link:https://github.com/asteria277[@asteria277]
+* David Estes - link:https://github.com/davydotcom[@davydotcom]
