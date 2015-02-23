@@ -63,3 +63,9 @@ function IndexController($scope) {
 };
 IndexController.$inject = ["$scope"];
 ----
+
+== Contributions
+Thank you to the following people who have made major contributions to this module in terms of both feedback and code:
+
+* Eric Brayeur
+* David Estes
