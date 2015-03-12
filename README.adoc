@@ -8,7 +8,7 @@ The `angular-annotate-asset-pipeline` is an https://github.com/bertramdev/asset-
 
 == Getting started
 
-=== Gradle
+=== Gradle / Grails 3
 
 [source,groovy,subs='attributes']
 .build.gradle
@@ -27,7 +27,7 @@ dependencies {
 
 Make sure the dependency is specified in both the buildscript and dependencies blocks.
 
-=== Grails
+=== Grails 2
 Add the plugin to your **BuildConfig.groovy**:
 
 [source,groovy,subs='attributes']
