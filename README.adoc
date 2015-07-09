@@ -1,5 +1,5 @@
-:version: 2.1.0
-:ngAnnotateVersion: 0.15.4
+:version: 2.1.1
+:ngAnnotateVersion: 1.0.1
 = AngularJs Annotate Asset-Pipeline
 
 image::https://codeship.com/projects/63e0e280-8c81-0132-c100-6e5f8c02ac8f/status?branch=master[link="https://codeship.com/projects/60472"]
