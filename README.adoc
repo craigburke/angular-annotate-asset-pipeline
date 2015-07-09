@@ -8,7 +8,7 @@ The `angular-annotate-asset-pipeline` is an https://github.com/bertramdev/asset-
 
 == Getting started
 
-=== Gradle
+=== Gradle / Grails 3
 
 [source,groovy,subs='attributes']
 .build.gradle
@@ -27,7 +27,7 @@ dependencies {
 
 Make sure the dependency is specified in both the buildscript and dependencies blocks.
 
-=== Grails
+=== Grails 2
 Add the plugin to your **BuildConfig.groovy**:
 
 [source,groovy,subs='attributes']
@@ -63,3 +63,9 @@ function IndexController($scope) {
 };
 IndexController.$inject = ["$scope"];
 ----
+
+== Contributions
+Thank you to the following people who have made major contributions to this module in terms of both feedback and code:
+
+* Eric Brayeur - link:https://github.com/asteria277[@asteria277]
+* David Estes - link:https://github.com/davydotcom[@davydotcom]
