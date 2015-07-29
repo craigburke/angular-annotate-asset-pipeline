@@ -1,6 +1,6 @@
 plugins {
-	id "com.moowork.node" version "0.7"
-	id "com.jfrog.bintray" version "1.0"
+	id 'com.moowork.node' version '0.7'
+	id 'com.jfrog.bintray' version '1.0'
 }
 
 repositories {
@@ -9,11 +9,12 @@ repositories {
 	mavenCentral()
 }
 
-group = 'com.craigburke.angular'
-version = '2.1.1'
-
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
+
+targetCompatibility = 1.7
+group = 'com.craigburke.angular'
+version = '2.1.2'
 
 configurations { 
 	provided 
