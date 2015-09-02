@@ -1,84 +1,71 @@
 plugins {
-	id 'com.moowork.node' version '0.7'
-	id 'com.jfrog.bintray' version '1.0'
+    id 'groovy'
+    id 'maven-publish'
+    id 'com.moowork.node' version '0.10'
+    id 'com.jfrog.bintray' version '1.0'
+    id 'nebula.provided-base' version '2.2.2'
 }
 
 repositories {
-	mavenLocal()
-	jcenter()
-	mavenCentral()
+    mavenLocal()
+    jcenter()
+    mavenCentral()
 }
-
-apply plugin: 'groovy'
-apply plugin: 'maven-publish'
 
 targetCompatibility = 1.7
 group = 'com.craigburke.angular'
-version = '2.1.2'
-
-configurations { 
-	provided 
-	testCompile { extendsFrom provided }
-}
+version = '2.2.0'
 
 node {
-	version = '0.11.10'
-	distBaseUrl = 'http://nodejs.org/dist'
-	download = true
-	workDir = file("${project.buildDir}/nodejs")
+    download = true
 }
 
 project.ext {
-	tempFile = file('ngannotate.js')
-	destination = file('src/main/resources/')
-	npmDependencies = ['ng-annotate', 'browserify']
+    tempFile = file('ngannotate.js')
+    destination = file('src/main/resources/')
+    npmDependencies = ['ng-annotate', 'browserify']
 }
- 
-sourceSets {
-	main {
-		compileClasspath += configurations.provided
-	}
-} 
- 
+
 dependencies {
-	compile 'com.bertramlabs.plugins:asset-pipeline-core:2.0.12'
-	provided 'org.codehaus.groovy:groovy-all:2.3.6'
+	compile 'com.craigburke.assets:javascript-core:0.2.0'
+    compile 'com.bertramlabs.plugins:asset-pipeline-core:2.0.12'
+    provided 'org.codehaus.groovy:groovy-all:2.3.6'
 
-	compile 'org.mozilla:rhino:1.7R4'
-	
-	testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
 }
 
-task installDependencies(type: NpmTask) {
-	args = ['install'] + npmDependencies + ['--save-dev']
+task('installDependencies', type: NpmTask) {
+    args = ['install'] + npmDependencies + ['--save-dev']
 }
 
-task bundleNgAnnotate(type: NodeTask, dependsOn: 'installDependencies') {
-	script = file('node_modules/browserify/bin/cmd.js')
-	args = ['node_modules/ng-annotate/build/es5/ng-annotate-main.js', '-o', tempFile.path]
+task('bundleNgAnnotate', type: NodeTask, dependsOn: 'installDependencies') {
+    script = file('node_modules/browserify/bin/cmd.js')
+    args = ['node_modules/ng-annotate/build/es5/ng-annotate-main.js', '-o', tempFile.path]
 }
 
-task installNgAnnotate(dependsOn: 'bundleNgAnnotate') << {
-	tempFile.text = "var ngAnnotate;${tempFile.text}"
-	
-	copy {
-		from tempFile
-		into destination
-		filter { String line ->
-			line.replace('module.exports = function ngAnnotate', 'ngAnnotate = function ngAnnotate')
-		}
-	}
-	
-	delete { tempFile }
+task('installNgAnnotate', dependsOn: 'bundleNgAnnotate') {
+    doLast {
+        tempFile.text = "var ngAnnotate;${tempFile.text}"
+
+        copy {
+            from tempFile
+            into destination
+            filter { String line ->
+                line.replace('module.exports = function ngAnnotate', 'ngAnnotate = function ngAnnotate')
+            }
+        }
+
+        delete { tempFile }
+    }
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.1'
+    gradleVersion = '2.6'
 }
 
 task sourcesJar(type: Jar) {
-	classifier = 'sources'
-	from sourceSets.main.allSource
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
@@ -89,30 +76,30 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 bintray {
     user = project.hasProperty('bintrayUsername') ? project.bintrayUsername : ''
     key = project.hasProperty('bintrayApiKey') ? project.bintrayApiKey : ''
-    publications = ['maven']  
-	pkg {
-		repo = 'asset-pipeline'
-		userOrg = 'craigburke'
-		name = 'angular-annotate-asset-pipeline'
-		licenses = ['Apache-2.0']
-	}
+    publications = ['maven']
+    pkg {
+        repo = 'asset-pipeline'
+        userOrg = 'craigburke'
+        name = 'angular-annotate-asset-pipeline'
+        licenses = ['Apache-2.0']
+    }
 }
 
 
 publishing {
-	publications {
-		maven(MavenPublication) {
-			artifactId 'angular-annotate-asset-pipeline'
-			pom.withXml {
-				asNode().children().last() + {
-					resolveStrategy = Closure.DELEGATE_FIRST
-					name 'angular-annotate-asset-pipeline'
+    publications {
+        maven(MavenPublication) {
+            artifactId 'angular-annotate-asset-pipeline'
+            pom.withXml {
+                asNode().children().last() + {
+                    resolveStrategy = Closure.DELEGATE_FIRST
+                    name 'angular-annotate-asset-pipeline'
                     description 'AngularJS Annotation extension for the Asset Pipeline Library.'
-					url 'https://github.com/craigburke/angular-annotate-asset-pipeline'
-					scm {
-						url 'https://github.com/craigburke/angular-annotate-asset-pipeline'
-						connection 'scm:https://github.com/craigburke/angular-annotate-asset-pipeline.git'
-						developerConnection 'scm:https://github.com/craigburke/angular-annotate-asset-pipeline.git'
+                    url 'https://github.com/craigburke/angular-annotate-asset-pipeline'
+                    scm {
+                        url 'https://github.com/craigburke/angular-annotate-asset-pipeline'
+                        connection 'scm:https://github.com/craigburke/angular-annotate-asset-pipeline.git'
+                        developerConnection 'scm:https://github.com/craigburke/angular-annotate-asset-pipeline.git'
                     }
                     licenses {
                         license {
@@ -126,15 +113,15 @@ publishing {
                             id 'craigburke'
                             name 'Craig Burke'
                             email 'craig@craigburke.com'
-                        	}
-                    	}
-					}
-			}		
-			from components.java
-			artifact sourcesJar
+                        }
+                    }
+                }
+            }
+            from components.java
+            artifact sourcesJar
             artifact javadocJar
-		}
-	}
+        }
+    }
 }
 
 bintrayUpload.dependsOn build, sourcesJar, javadocJar

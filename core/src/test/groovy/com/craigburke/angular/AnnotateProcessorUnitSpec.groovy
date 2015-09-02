@@ -10,73 +10,74 @@ import spock.lang.Unroll
 
 class AnnotateProcessorUnitSpec extends Specification {
 
-    @Shared AssetFile assetFile
+    @Shared
+    AssetFile assetFile
 
     def setup() {
         assetFile = new GenericAssetFile()
     }
 
     def "Annotate and minifiy JS file with controller that has dependencies"() {
-           given:
-           def processor = new AnnotateProcessor()
-           def dependencies = ['$scope', '$http', 'foo', 'bar']
+        given:
+        def processor = new AnnotateProcessor()
+        def dependencies = ['$scope', '$http', 'foo', 'bar']
 
-           String input = """\
-       			angular.module('foo', []).controller('FooController', function(${dependencies.join(',')}) {});
+        String input = """\
+            angular.module('foo', []).controller('FooController', function(${dependencies.join(',')}) {});
            """
 
-           when:
-           String annotatedJs = processor.process(input, assetFile)
+        when:
+        String annotatedJs = processor.process(input, assetFile)
 
-           then:
-           annotatedJs.size() > input.size()
-		   
-		   and:
-           dependencies.each { String dependency ->
-               assert annotatedJs.contains(dependency)
-           }
-       }
+        then:
+        annotatedJs.size() > input.size()
 
-       def "Annotate Invalid Js file"() {
-           given:
-           def processor = new AnnotateProcessor()
-           
-		   String input = """\
-		   		var nonTerminatingString = 'Uh oh
-		   """
+        and:
+        dependencies.each { String dependency ->
+            assert annotatedJs.contains(dependency)
+        }
+    }
 
-           when:
-		   processor.process(input, assetFile)
+    def "Annotate Invalid Js file"() {
+        given:
+        def processor = new AnnotateProcessor()
 
-           then:
-           thrown(Exception)
-       }
+        String input = """\
+            var nonTerminatingString = 'Uh oh
+        """
 
-       def "Simulate parallel annotation with several threads"() {
-            given:
-            String input = "var test = 'ok';"
-            int threadPool = 20
+        when:
+        processor.process(input, assetFile)
 
-            when:
-            def results = []
+        then:
+        thrown(Exception)
+    }
 
-            def threads = (1..threadPool).collect { index ->
-                Thread.start {
-                    println "Starting thread: ${index}"
-                    results << new AnnotateProcessor().process(input, assetFile)
-                }
+    def "Simulate parallel annotation with several threads"() {
+        given:
+        String input = "var test = 'ok';"
+        int threadPool = 20
+
+        when:
+        ArrayList results = []
+
+        def threads = (1..threadPool).collect { index ->
+            Thread.start {
+                println "Starting thread: ${index}"
+                results << new AnnotateProcessor().process(input, assetFile)
             }
+        }
 
-            threads*.join()
+        threads*.join()
 
-            then:
-            notThrown(Exception)
+        then:
+        notThrown(Exception)
 
-            and:
-            results.size() == threadPool
+        and:
+        results.size() == threadPool
 
-            and:
-            results.findAll { it != input }.isEmpty()
-       }
+        and:
+        results.findAll { it != input }.isEmpty()
+    }
 
 }
