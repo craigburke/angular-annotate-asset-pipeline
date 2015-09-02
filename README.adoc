@@ -1,4 +1,5 @@
-:version: 2.1.2
+:version: 2.2.0
+:apVersion: 2.5.0
 :ngAnnotateVersion: 1.0.1
 = AngularJs Annotate Asset-Pipeline
 
@@ -13,15 +14,12 @@ The `angular-annotate-asset-pipeline` is an https://github.com/bertramdev/asset-
 [source,groovy,subs='attributes']
 .build.gradle
 ----
-buildscript {
-    dependencies {
-        classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.0.20"
-        classpath "com.craigburke.angular:angular-annotate-asset-pipeline:{version}"
-    }
+plugins {
+	id 'com.bertramlabs.asset-pipeline' version '{apVersion}'
 }
 
 dependencies {
-	compile "com.craigburke.angular:angular-annotate-asset-pipeline:{version}"
+	assets 'com.craigburke.angular:angular-annotate-asset-pipeline:{version}'
 }
 ----
 
