@@ -59,7 +59,7 @@ class AnnotateProcessorUnitSpec extends Specification {
         int threadPool = 20
 
         when:
-        ArrayList results = []
+        ArrayList results = Collections.synchronizedList([])
 
         def threads = (1..threadPool).collect { index ->
             Thread.start {
