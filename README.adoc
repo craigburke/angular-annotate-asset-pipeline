@@ -15,15 +15,13 @@ The `angular-annotate-asset-pipeline` is an https://github.com/bertramdev/asset-
 .build.gradle
 ----
 plugins {
-	id 'com.bertramlabs.asset-pipeline' version '{apVersion}'
+    id 'com.bertramlabs.asset-pipeline' version '{apVersion}'
 }
 
 dependencies {
-	assets 'com.craigburke.angular:angular-annotate-asset-pipeline:{version}'
+    assets 'com.craigburke.angular:angular-annotate-asset-pipeline:{version}'
 }
 ----
-
-Make sure the dependency is specified in both the buildscript and dependencies blocks.
 
 === Grails 2
 Add the plugin to your **BuildConfig.groovy**:
@@ -32,7 +30,7 @@ Add the plugin to your **BuildConfig.groovy**:
 .BuildConfig.groovy
 ----
 plugins {
-	runtime ":angular-annotate-asset-pipeline:{version}"
+    runtime ":angular-annotate-asset-pipeline:{version}"
 }
 ----
 
@@ -48,7 +46,7 @@ For example this
 [source,javascript]
 ----
 function IndexController($scope) {
-	$scope.message = "Hello world";
+    $scope.message = "Hello world";
 };
 ----
 
@@ -57,7 +55,7 @@ Will be automatically annotated like so:
 [source,javascript]
 ----
 function IndexController($scope) {
-	$scope.message = "Hello world";
+    $scope.message = "Hello world";
 };
 IndexController.$inject = ["$scope"];
 ----
