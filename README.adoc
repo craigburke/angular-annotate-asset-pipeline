@@ -1,4 +1,4 @@
-:version: 2.2.1
+:version: 2.2.3
 :apVersion: 2.5.0
 :ngAnnotateVersion: 1.0.1
 = AngularJs Annotate Asset-Pipeline
