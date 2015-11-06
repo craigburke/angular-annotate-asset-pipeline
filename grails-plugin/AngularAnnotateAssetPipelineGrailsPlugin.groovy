@@ -1,5 +1,5 @@
 class AngularAnnotateAssetPipelineGrailsPlugin {
-    def version = "2.2.3"
+    def version = "2.3.0"
     def grailsVersion = "2.0 > *"
 
     def title = "AngularJS Annotate Asset-Pipeline Plugin"

@@ -26,7 +26,8 @@ class AnnotateProcessor extends JavaScriptProcessor {
             inputSrc = input
             Map result = eval('ngAnnotate(inputSrc, {add: true, sourcemap: false, stats: false});')
             if (result.containsKey('errors')) {
-                throw new Exception(result.errors as String)
+                String message = "Javascript error in ${assetFile.path}\n ${result.errors}"
+                throw new Exception(message)
             }
             result.src
         }

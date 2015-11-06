@@ -14,7 +14,7 @@ repositories {
 
 targetCompatibility = 1.7
 group = 'com.craigburke.angular'
-version = '2.2.3'
+version = '2.3.0'
 
 node {
     download = true
