@@ -14,20 +14,20 @@ repositories {
 
 targetCompatibility = 1.7
 group = 'com.craigburke.angular'
-version = '2.3.0'
+version = '2.4.0'
 
 node {
     download = true
 }
 
 project.ext {
-    tempFile = file('ngannotate.js')
-    destination = file('src/main/resources/')
-    npmDependencies = ['ng-annotate', 'browserify']
+    sourceFile = file('node_modules/ng-annotate/build/es5/ng-annotate-main.js')
+    destination = file('src/main/resources/ngannotate.js')
+    npmDependencies = ['ng-annotate', 'webpack']
 }
 
 dependencies {
-    compile 'com.craigburke.asset:javascript-core:0.2.3'
+    compile 'com.craigburke.asset:javascript-core:0.3.0'
     provided 'com.bertramlabs.plugins:asset-pipeline-core:2.0.12'
     provided 'org.codehaus.groovy:groovy-all:2.0.7'
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
@@ -37,41 +37,9 @@ task('installDependencies', type: NpmTask) {
     args = ['install'] + npmDependencies
 }
 
-task('bundleNgAnnotate', type: NodeTask, dependsOn: 'installDependencies') {
-    script = file('node_modules/browserify/bin/cmd.js')
-    args = ['node_modules/ng-annotate/build/es5/ng-annotate-main.js', '-o', tempFile.absolutePath]
-}
-
-task('processNgAnnotate', dependsOn: 'bundleNgAnnotate') {
-    doLast {
-        String script = "var ngAnnotate;${tempFile.text}"
-
-        // Update deprecated __defineGetter__ statements
-        (script =~ /(?ms)exports\.__defineGetter__\('(.*?)'(.*?)\{(.*?)\}\);/).each {
-            String updatedGetter = """
-                Object.defineProperty(exports, '${it[1]}', {
-                    get: function() {
-                        ${it[3]}
-                    }
-                });
-            """
-            script = script.replace(it[0] as String, updatedGetter)
-        }
-
-        script = script.replace('module.exports = function ngAnnotate', 'ngAnnotate = function ngAnnotate')
-        tempFile.text = script
-    }
-}
-
-
-task('installNgAnnotate', dependsOn:'processNgAnnotate') {
-    doLast {
-        copy {
-            from tempFile.absolutePath
-            into destination
-        }
-        delete { tempFile }
-    }
+task('installNgAnnotate', type: NodeTask, dependsOn: 'installDependencies') {
+    script = file('node_modules/webpack/bin/webpack.js')
+    args = [sourceFile.path, '--output-library', 'ngAnnotate', '--optimize-minimize', "${destination.path}"]
 }
 
 task wrapper(type: Wrapper) {

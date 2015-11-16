@@ -1,30 +1,33 @@
 package com.craigburke.angular
 
+import asset.pipeline.AbstractProcessor
 import asset.pipeline.AssetFile
 import asset.pipeline.AssetCompiler
 import com.craigburke.asset.JavaScriptEngine
-import com.craigburke.asset.JavaScriptProcessor
-import groovy.transform.CompileStatic
 import groovy.transform.Synchronized
 
-class AnnotateProcessor extends JavaScriptProcessor {
+class AnnotateProcessor extends AbstractProcessor {
+
+    static JavaScriptEngine engine
 
     AnnotateProcessor(AssetCompiler precompiler) {
         super(precompiler)
+        setupEngine()
     }
 
-    static JavaScriptEngine annotateEngine
-
     @Synchronized
-    JavaScriptEngine getEngine() {
-        annotateEngine = annotateEngine ?: new JavaScriptEngine('ngannotate.js')
-        annotateEngine
+    static void setupEngine() {
+        if (!engine) {
+            URL ngAnnotate = AnnotateProcessor.classLoader.getResource('ngannotate.js')
+            engine = new JavaScriptEngine(ngAnnotate.getText('UTF-8'))
+        }
     }
 
     String process(String input, AssetFile assetFile) {
-        javaScript {
-            inputSrc = input
-            Map result = eval('ngAnnotate(inputSrc, {add: true, sourcemap: false, stats: false});')
+        engine.run {
+            AnnotateOptions options = new AnnotateOptions(add: true, sourcemap: false, stats: false)
+            Map result = ngAnnotate(input, options)
+
             if (result.containsKey('errors')) {
                 String message = "Javascript error in ${assetFile.path}\n ${result.errors}"
                 throw new Exception(message)
