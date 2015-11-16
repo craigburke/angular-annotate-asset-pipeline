@@ -1,6 +1,6 @@
-:version: 2.3.0
+:version: 2.4.0
 :apVersion: 2.5.0
-:ngAnnotateVersion: 1.0.1
+:ngAnnotateVersion: 1.0.2
 = AngularJs Annotate Asset-Pipeline
 
 The `angular-annotate-asset-pipeline` is an https://github.com/bertramdev/asset-pipeline-core[Asset Pipeline] module that provides annotations for dependecy injection to allow angular JavaScript or CofeeScript files to be minified in Gradle and Grails projects.
