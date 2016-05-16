@@ -12,5 +12,5 @@ class AngularAnnotateAssetPipelineGrailsPlugin {
     def issueManagement = [ system: "GITHUB", url: "http://github.com/craigburke/angular-annotate-asset-pipeline/issues" ]
     def scm = [ url: "http://github.com/craigburke/angular-annotate-asset-pipeline" ]
 
-    def loadAfter = ['coffeeAssetPipeline']
+    def loadAfter = ['coffeeAssetPipeline', 'babelAssetPipeline']
 }
